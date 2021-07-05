@@ -1,6 +1,3 @@
-import Vue from "vue";
-import App from "./App.vue";
-
 import firebase from "firebase/app";
 import "firebase/firestore";
 
@@ -19,15 +16,4 @@ firebase.initializeApp(firebaseConfig);
 const db = firebase.firestore();
 const demoCollection = db.collection("demo");
 
-demoCollection
-  .doc("pbLh3aRXvxHzNCtp4QKb")
-  .get()
-  .then((doc) => {
-    console.log(doc.data().hello);
-  });
-
-Vue.config.productionTip = false;
-
-new Vue({
-  render: (h) => h(App),
-}).$mount("#app");
+export { db, demoCollection };

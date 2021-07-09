@@ -1,18 +1,41 @@
 <template>
   <div id="app">
     <img alt="Vue logo" src="./assets/logo.png" />
-    <HelloWorld msg="Welcome to Your Vue.js App" />    
+    <LoginForm @login="login" v-if="!loggedIn" msg="Bitte einloggen" /> 
+    <div v-else>
+    Sie sind eingeloggt
+    </div>
   </div>
 </template>
 
 <script>
-import HelloWorld from "./components/HelloWorld.vue";
+import LoginForm from "./components/LoginForm.vue";
 import * as fb from "./firebase";
 
 export default {
   name: "App",
   components: {
-    HelloWorld,
+    LoginForm,
+  },
+data() {
+    return {
+      loggedIn: false
+    }
+  },
+
+  methods: {
+    login(payload) {
+     fb.auth.signInWithEmailAndPassword(payload.email,payload.password).then((userCredentials) => {
+      var user = userCredentials.user;
+       console.log("Logged in user:",user);
+       this.loggedIn = true;
+    }).catch((error) => {
+      var errorCode = error.code;
+      var errorMessage = error.message;
+      console.log("Failed to login: ",errorCode,errorMessage);
+      this.loggedIn = false;
+    });
+    }
   },
 
   mounted() {
@@ -23,19 +46,6 @@ export default {
       console.log("Newly created user: ",user);
     })
     */
-    let email = "simon@codebrew.de";
-    let pwd = ""
-    fb.auth.signInWithEmailAndPassword(email,pwd).then((userCredentials) => {
-      var user = userCredentials.user;
-       console.log("Logged in user:",user);
-    }).catch((error) => {
-      var errorCode = error.code;
-      var errorMessage = error.message;
-      console.log("Failed to login: ",errorCode,errorMessage);
-    });
-
-
-
     /*
     fb.demoCollection
       .doc("pbLh3aRXvxHzNCtp4QKb")

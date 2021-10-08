@@ -41,7 +41,9 @@ export default new Vuex.Store({
     },
     async uploadProfilePicture({ commit }, payload) {
       var storageRef = fb.storage.ref();
-      var pictureRef = storageRef.child("profilePicture.png");
+      var pictureRef = storageRef.child(
+        "users/" + payload.uid + "/profilePicture.png"
+      );
       return pictureRef.put(payload.image).then((snapshot) => {
         return snapshot.ref.getDownloadURL().then((res) => {
           console.log(res);
@@ -50,8 +52,9 @@ export default new Vuex.Store({
       });
     },
     async fetchProfilePicture({ commit }) {
+      var uid = fb.auth.currentUser.uid;
       var storageRef = fb.storage.ref();
-      var pictureRef = storageRef.child("profilePicture.png");
+      var pictureRef = storageRef.child("users/" + uid + "/profilePicture.png");
       return pictureRef.getDownloadURL().then((res) => {
         console.log(res);
         commit("setImageURL", res);

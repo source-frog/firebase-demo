@@ -1,6 +1,17 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="@/assets/logo.png" />
+    <img class="image" alt="Vue logo" :src="image" />
+    <br />
+    Profilbild hochladen: <br />
+    <input
+      type="file"
+      accept="image/*"
+      @change="uploadProfilePicture($event)"
+    />
+    <br />
+    <br />
+    <br />
+    <hr />
     Sie sind eingeloggt <button @click="logout()">Logout</button>
   </div>
 </template>
@@ -14,7 +25,10 @@ export default {
     return {};
   },
   computed: {
-    ...mapState(["user"]),
+    ...mapState(["user", "image"]),
+  },
+  mounted() {
+    this.$store.dispatch("fetchProfilePicture");
   },
   methods: {
     logout() {
@@ -22,6 +36,23 @@ export default {
         this.$router.push("/");
       });
     },
+    uploadProfilePicture(event) {
+      console.log("Upload image: ", event.target.files[0]);
+      let payload = {
+        uid: this.user.uid,
+        image: event.target.files[0],
+      };
+      this.$store.dispatch("uploadProfilePicture", payload).then(() => {
+        alert("Successfully uploaded profile picture");
+      });
+    },
   },
 };
 </script>
+
+<style scoped>
+.image {
+  width: 300px;
+  height: 300px;
+}
+</style>

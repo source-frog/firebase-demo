@@ -7,6 +7,7 @@ exports.createUserEntity = functions.auth.user().onCreate((user) => {
   functions.logger.info(
     "New user created, firestore entity will be created now"
   );
+
   return admin
     .firestore()
     .collection("users")

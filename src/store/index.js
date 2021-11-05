@@ -39,6 +39,17 @@ export default new Vuex.Store({
       fb.auth.signOut();
       commit("setUser", {});
     },
+    async resetPassword({ commit }, email) {
+      return fb.auth
+        .sendPasswordResetEmail(email)
+        .then((res) => {
+          commit("setUser", {});
+          return res;
+        })
+        .catch((err) => {
+          return err;
+        });
+    },
     async uploadProfilePicture({ commit }, payload) {
       var storageRef = fb.storage.ref();
       var pictureRef = storageRef.child(

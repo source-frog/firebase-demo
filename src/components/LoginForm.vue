@@ -1,40 +1,43 @@
 <template>
   <div class="hello">
     <h1>{{ msg }}</h1>
-      <form
-      >
-      <input type="email" v-model="email" placeholder="Email Adresse">
-      <br>
-      <input type="password" v-model="password" placeholder="Passwort">
-      <br>
-      <input type="button" value="LOG IN" @click="login">
-      </form>
+    <form>
+      <input type="email" v-model="email" placeholder="Email Adresse" />
+      <br />
+      <input type="password" v-model="password" placeholder="Passwort" />
+      <br />
+      <input type="button" value="LOG IN" @click="login" />
+      <input type="button" value="RESET PASSWORD" @click="resetPassword" />
+    </form>
   </div>
 </template>
 
 <script>
 export default {
-  name: 'LoginForm',
+  name: "LoginForm",
   props: {
-    msg: String
+    msg: String,
   },
 
   data() {
     return {
       email: "",
-      password: ""
-    }
+      password: "",
+    };
   },
 
   methods: {
     login() {
       this.$emit("login", {
         email: this.email,
-        password: this.password
-      })
+        password: this.password,
+      });
+    },
+    resetPassword() {
+      this.$emit("resetPassword", this.email);
     },
   },
-}
+};
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->

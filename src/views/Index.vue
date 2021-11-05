@@ -1,7 +1,12 @@
 <template>
   <div id="app">
     <img alt="Vue logo" src="@/assets/logo.png" />
-    <LoginForm @login="login" v-if="!user.uid" msg="Bitte einloggen" />
+    <LoginForm
+      @login="login"
+      @resetPassword="resetPassword"
+      v-if="!user.uid"
+      msg="Bitte einloggen"
+    />
   </div>
 </template>
 
@@ -26,6 +31,12 @@ export default {
     login(payload) {
       this.$store.dispatch("login", payload).then(() => {
         this.$router.push("/dashboard");
+      });
+    },
+    resetPassword(email) {
+      console.log("Email reset: " + email);
+      this.$store.dispatch("resetPassword", email).then(() => {
+        alert("Password Reset sent out to: " + email);
       });
     },
   },
